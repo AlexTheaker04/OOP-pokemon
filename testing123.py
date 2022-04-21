@@ -83,9 +83,13 @@ while True:  # validation
     defence1 = int(input("How much defence:? "))
 
     if health1 + damage1 + defence1 < 51:
-        Monster1 = fire(name1, type1, health1, damage1, defence1)
+        if type1 == "fire":
+            Monster1 = fire(name1, type1, health1, damage1, defence1)
+        elif type1 == "water":
+            Monster1 = water(name1, type1, health1, damage1, defence1)
+        else:
+            Monster1 = earth(name1, type1, health1, damage1, defence1)
         break
-
 
 if choice == "N":
     name2 = input("Player 2, what name do you want for your monster?")
@@ -129,7 +133,7 @@ if computer == 1:
             break
 
         # computer taking actions
-        # Monster2.attack(Monster1)
+        Monster2.attack(Monster1)
 
         if Monster1.health <= 0:
             print("Computer wins ")
@@ -138,7 +142,8 @@ if computer == 1:
             print("Player wins ")
             break
         # AI retreat
-        if Monster2.health <=5 and random.randint(1,10) == 5:
+        if Monster2.health <= 5 and random.randint(1, 10) == 5:
             Monster2.retreat()
             print(" Monster 2 has retreated, you win!")
-
+        else:
+            Monster2.heal()
