@@ -12,13 +12,12 @@ class Monster:
         self.damage = damage
         self.defence = defence
 
-    def attack(self, target):
+    def attack(self, target, target2):
         # print("attack")
-        target.attacked(self.damage)
+        target.attacked(self.damage, target2, )
 
-    def s_attack(self, target):
-        print("special attack")
-        target.attacked(self.damage + 5)
+    def s_attack(self, target, target2):
+        target.attacked(self.damage + 5, target2)
 
     def heal(self):
         temp = self.health
@@ -28,19 +27,22 @@ class Monster:
         print()
 
     def print_stats(self):
-        print(self.name, self.type, self.health, self.damage, self.defence)
+        print("monster name: ", self.name, "type: ", self.type, "health: ", self.health, "attack: ",
+              self.damage, "defence: ", self.defence)
+        print("*------*")
 
     def view_stats(self):
+        print("*----stats----*")
         Monster1.print_stats()
         Monster2.print_stats()
 
-    def attacked(self, damage):
-        # print("ouch")
+    def attacked(self, damage, target2):
         self.health = self.health - damage
+        print(str(target2), "was hit for ", damage)
 
 
 class earth(Monster):
-    def s_attack(self, target):
+    def s_attack(self, target, name):
         print("special attack")
         target.attacked(self.damage + 10)
 
@@ -64,7 +66,7 @@ print("*****************************")
 print("""
 In this game, you have to fight against either the computer or another player.
 You take turns attacking or healing your Monster. You can enter either "attack",
- "heal" or "retreat"
+ "heal", special attack  or "retreat"
 """)
 computer = 0
 monster_classes = ["fire", "water", "earth"]
@@ -77,7 +79,7 @@ defence1 = 0
 while True:  # validation
     print("Remember, points cannot be more then 50!")
     name1 = input("Player 1, what name do you want for your monster? ")
-    type1 = input("Player, what type (fire, earth, water:? ")
+    type1 = input("Player, what type (fire, earth, water):? ")
     health1 = int(input("Player what health:? "))
     damage1 = int(input("how much damage:? "))
     defence1 = int(input("How much defence:? "))
@@ -112,28 +114,41 @@ else:
     else:
         Monster2 = earth(name2, type2, health2, damage2, defence2)
 heal = 1
+special_count = 1
 if computer == 1:
     while True:
         # user portion doing things
         Monster1.view_stats()
-        p_input = int(input(
-            "player what do you want to do? (attack (1), heal (3), retreat or view stats (2) , special attack (4) ? "))
-        if p_input == 1:
-            Monster1.attack(Monster2)
-        elif p_input == 4:
-            Monster1.s_attack(Monster2)
-        elif p_input == 2:
-            Monster1.view_stats()
-        if p_input == 3 and heal == 1:
-            print("healing HP")
-            Monster1.heal()
-            heal = 0
-        elif p_input == 3 and heal == 0:
-            print("you cant heal :(")
-            break
+        while True:
+
+            p_input = int(input("player what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
+                                "special attack (4)? "))
+            if p_input == 1:
+                Monster1.attack(Monster2, name2)
+                break
+            if p_input == 4 and special_count != 0:
+                Monster1.s_attack(Monster2, name2)
+                special_count -= 1
+                break
+            if p_input == 2:
+                Monster1.view_stats()
+            if p_input == 3 and heal == 1:
+                print("healing HP")
+                Monster1.heal()
+                heal = 0
+                break
+            if p_input == 5:
+                Monster1.retreat()
+            elif p_input == 3 and heal == 0:
+                print("you cant heal :(")
+                break
 
         # computer taking actions
-        Monster2.attack(Monster1)
+
+        if random.randint(1, 4) == 1:
+            Monster2.s_attack(Monster1, name1)
+        else:
+            Monster2.attack(Monster1, name1)
 
         if Monster1.health <= 0:
             print("Computer wins ")
