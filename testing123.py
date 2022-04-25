@@ -6,7 +6,6 @@ import random
 # Programmer: Alex Theaker
 # Date: april 29, 2022,
 # Input: user will input names and stats of monsters, and what they want their monsters to do.
-#
 # Output: 4 encrypted messages output to the console, each on a separate line, and saved to a file
 
 # earth gets 5 bonus to special attack
@@ -57,15 +56,14 @@ class earth(Monster):
 
 
 class water(Monster):
-    print("Water")
-
+    # better healing
     def heal(self):
         temp = self.health
         self.health += (temp * .2) + 10
 
 
 class fire(Monster):
-
+    # increase defence by 5
     def __init__(self, name, type, health, damage, defence):
         super().__init__(name, type, health, damage, defence + 5)
 
