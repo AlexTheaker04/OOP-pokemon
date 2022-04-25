@@ -1,9 +1,18 @@
 import random
 
 
+# Program Header
+# Program Name: Assignment - monster game
+# Programmer: Alex Theaker
+# Date: april 29, 2022,
+# Input: user will input names and stats of monsters, and what they want their monsters to do.
+#
+# Output: 4 encrypted messages output to the console, each on a separate line, and saved to a file
+
 # earth gets 5 bonus to special attack
 # fire gets 5 more to defence
 # water get 5 more to heal
+
 class Monster:
     def __init__(self, name, type, health, damage, defence, ):
         self.name = name
@@ -23,8 +32,8 @@ class Monster:
         temp = self.health
         self.health += temp * .2
 
-    def retreat(self):
-        print()
+    def retreat(self, name):
+        print(name, "has retreated, you win!")
 
     def print_stats(self):
         print("monster name: ", self.name, "type: ", self.type, "health: ", self.health, "attack: ",
@@ -117,9 +126,9 @@ heal = 1
 special_count = 1
 if computer == 1:
     while True:
-        # user portion doing things
+
         Monster1.view_stats()
-        while True:
+        while True:  # user portion doing things
 
             p_input = int(input("player what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
                                 "special attack (4)? "))
@@ -138,7 +147,7 @@ if computer == 1:
                 heal = 0
                 break
             if p_input == 5:
-                Monster1.retreat()
+                Monster1.retreat(name1)
             elif p_input == 3 and heal == 0:
                 print("you cant heal :(")
                 break
@@ -158,7 +167,6 @@ if computer == 1:
             break
         # AI retreat
         if Monster2.health <= 5 and random.randint(1, 10) == 5:
-            Monster2.retreat()
-            print(" Monster 2 has retreated, you win!")
+            Monster2.retreat(name2)
         else:
             Monster2.heal()
