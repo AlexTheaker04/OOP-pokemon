@@ -33,10 +33,11 @@ class Monster:
 
     def retreat(self, name):
         print(name, "has retreated, you win!")
+        quit()
 
     def print_stats(self):
-        print("monster name: ", self.name, "type: ", self.type, "health: ", self.health, "attack: ",
-              self.damage, "defence: ", self.defence)
+        print("Monster name: ", self.name, ", Type: ", self.type, ", health: ", self.health, ", Attack: ",
+              self.damage, ", Defence: ", self.defence)
         print("*------*")
 
     def view_stats(self):
@@ -68,6 +69,11 @@ class fire(Monster):
         super().__init__(name, type, health, damage, defence + 5)
 
 
+def end_game(name):
+    print(name, " won! thanks for playing!")
+    quit()
+
+
 print("Welcome to the battle!")
 print("*****************************")
 print("""
@@ -82,12 +88,16 @@ choice = choice.upper()
 health1 = 0
 damage1 = 0
 defence1 = 0
+heal = 1
+heal2 = 1
+special_count = 1
+special_count2 = 1
 
 while True:  # validation
-    print("Remember, points cannot be more then 50!")
+    print("Set your monsters abilities.Remember, total points cannot be more then 50!")
     name1 = input("Player 1, what name do you want for your monster? ")
     type1 = input("Player, what type (fire, earth, water):? ")
-    health1 = int(input("Player what health:? "))
+    health1 = int(input("What health:? "))
     damage1 = int(input("how much damage:? "))
     defence1 = int(input("How much defence:? "))
 
@@ -108,6 +118,7 @@ if choice == "N":
     defence2 = int(input("How much defence:? "))
     Monster2 = Monster(name2, type2, health2, damage2, defence2)
 else:
+    # set computer monster stats for computer
     computer = 1
     name2 = "El Computer"
     type2 = random.choice(monster_classes)
@@ -120,8 +131,7 @@ else:
         Monster2 = water(name2, type2, health2, damage2, defence2)
     else:
         Monster2 = earth(name2, type2, health2, damage2, defence2)
-heal = 1
-special_count = 1
+
 if computer == 1:
     while True:
 
@@ -152,19 +162,71 @@ if computer == 1:
 
         # computer taking actions
 
+        # health check for both monsters
+        if Monster1.health <= 0:
+            end_game("Computer")
+        elif Monster2.health <= 0:
+            end_game("Player")
+        # attacking
         if random.randint(1, 4) == 1:
             Monster2.s_attack(Monster1, name1)
         else:
             Monster2.attack(Monster1, name1)
-
-        if Monster1.health <= 0:
-            print("Computer wins ")
-            break
-        elif Monster2.health <= 0:
-            print("Player wins ")
-            break
         # AI retreat
         if Monster2.health <= 5 and random.randint(1, 10) == 5:
             Monster2.retreat(name2)
         else:
             Monster2.heal()
+
+if computer == 0:
+    while True:
+        Monster1.view_stats()
+        while True:  # user portion doing things
+
+            p_input = int(input("player what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
+                                "special attack (4)? "))
+            if p_input == 1:
+                Monster1.attack(Monster2, name2)
+                break
+            if p_input == 4 and special_count != 0:
+                Monster1.s_attack(Monster2, name2)
+                special_count -= 1
+                break
+            if p_input == 2:
+                Monster1.view_stats()
+            if p_input == 3 and heal == 1:
+                print("healing HP")
+                Monster1.heal()
+                heal = 0
+                break
+            if p_input == 5:
+                Monster1.retreat(name1)
+            elif p_input == 3 and heal == 0:
+                print("you cant heal :(")
+                break
+
+        # user 2 moves
+        Monster2.view_stats()
+        while True:  # user 1 moves
+
+            p_input = int(input("player what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
+                                "special attack (4)? "))
+            if p_input == 1:
+                Monster2.attack(Monster1, name1)
+                break
+            if p_input == 4 and special_count != 0:
+                Monster2.s_attack(Monster1, name1)
+                special_count2 -= 1
+                break
+            if p_input == 2:
+                Monster2.view_stats()
+            if p_input == 3 and heal == 1:
+                print("healing HP")
+                Monster2.heal()
+                heal = 0
+                break
+            if p_input == 5:
+                Monster2.retreat(name2)
+            elif p_input == 3 and heal == 0:
+                print("you cant heal :(")
+                break
