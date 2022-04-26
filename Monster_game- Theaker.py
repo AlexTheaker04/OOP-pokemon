@@ -25,7 +25,7 @@ class Monster:
         target.attacked(self.damage, target2, )
 
     def s_attack(self, target, target2):
-        target.attacked(self.damage + 5, target2)
+        target.attacked(self.damage, target2)
 
     def heal(self):
         temp = self.health
@@ -36,7 +36,7 @@ class Monster:
         quit()
 
     def print_stats(self):
-        print("Monster name: ", self.name, ", Type: ", self.type, ", health: ", self.health, ", Attack: ",
+        print(self.name, ": ", "Type: ", self.type, ", health: ", self.health, ", Attack: ",
               self.damage, ", Defence: ", self.defence)
         print("*------*")
 
@@ -51,9 +51,9 @@ class Monster:
 
 
 class earth(Monster):
-    def s_attack(self, target, name):
-        print("special attack")
-        target.attacked(self.damage + 10)
+    def s_attack(self, target, target2):
+        target.attacked(self.damage + 10, target2)
+    # self.damage + 10
 
 
 class water(Monster):
@@ -83,18 +83,21 @@ You take turns attacking or healing your Monster. You can enter either "attack",
 """)
 computer = 0
 monster_classes = ["fire", "water", "earth"]
-choice = input("do you want to play against the computer (Y) or another player (N) ? : ")
+choice = input("Do you want to play against the computer (Y) or another player (N) ? : ")
 choice = choice.upper()
 health1 = 0
 damage1 = 0
 defence1 = 0
+health2 = 0
+damage2 = 0
+defence2 = 0
 heal = 1
 heal2 = 1
 special_count = 1
 special_count2 = 1
 
 while True:  # validation
-    print("Set your monsters abilities.Remember, total points cannot be more then 50!")
+    print("Set your monsters abilities. Remember, total points cannot be more then 50!")
     name1 = input("Player 1, what name do you want for your monster? ")
     type1 = input("Player, what type (fire, earth, water):? ")
     health1 = int(input("What health:? "))
@@ -109,7 +112,7 @@ while True:  # validation
         else:
             Monster1 = earth(name1, type1, health1, damage1, defence1)
         break
-
+    print("error, try again!")
 if choice == "N":
     name2 = input("Player 2, what name do you want for your monster?")
     type2 = input("Player, what type (fire, earth, water):? ")
@@ -118,23 +121,34 @@ if choice == "N":
     defence2 = int(input("How much defence:? "))
     Monster2 = Monster(name2, type2, health2, damage2, defence2)
 else:
-    # set computer monster stats for computer
-    computer = 1
-    name2 = "El Computer"
-    type2 = random.choice(monster_classes)
-    health2 = random.randint(1, 30)
-    damage2 = random.randint(5, 10)
-    defence2 = random.randint(3, 10)
-    if type2 == "fire":
-        Monster2 = fire(name2, type2, health2, damage2, defence2)
-    elif type2 == "water":
-        Monster2 = water(name2, type2, health2, damage2, defence2)
-    else:
-        Monster2 = earth(name2, type2, health2, damage2, defence2)
+    while True:
+        # set computer monster stats for computer
+        computer = 1
+        name2 = "El Computer"
+        type2 = random.choice(monster_classes)
+        health2 = random.randint(20, 30)
+        damage2 = random.randint(9, 20)
+        defence2 = random.randint(10, 15)
 
+        if health2 + damage2 + defence2 < 52:
+            if type2 == "fire":
+                Monster2 = fire(name2, type2, health2, damage2, defence2)
+            elif type2 == "water":
+                Monster2 = water(name2, type2, health2, damage2, defence2)
+            else:
+                Monster2 = earth(name2, type2, health2, damage2, defence2)
+            break
 if computer == 1:
     while True:
 
+        print("")
+        print("")
+        print("")
+        # health check for both monsters
+        if Monster1.health <= 0:
+            end_game("Player 2")
+        elif Monster2.health <= 0:
+            end_game("Player 1")
         Monster1.view_stats()
         while True:  # user portion doing things
 
@@ -180,11 +194,20 @@ if computer == 1:
 
 if computer == 0:
     while True:
+        print("")
+        print("")
+        print("")
         Monster1.view_stats()
+        # health check for both monsters
+        if Monster1.health <= 0:
+            end_game("Player 2")
+        elif Monster2.health <= 0:
+            end_game("Player 1")
         while True:  # user portion doing things
 
-            p_input = int(input("player what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
-                                "special attack (4)? "))
+            p_input = int(
+                input("player 1, what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
+                      "special attack (4)? "))
             if p_input == 1:
                 Monster1.attack(Monster2, name2)
                 break
@@ -206,10 +229,13 @@ if computer == 0:
                 break
 
         # user 2 moves
+        print("")
+        print("")
+        print("")
         Monster2.view_stats()
         while True:  # user 1 moves
 
-            p_input = int(input("player what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
+            p_input = int(input("player 2, what do you want to do? (attack (1), heal (3), retreat (5), view stats (2), "
                                 "special attack (4)? "))
             if p_input == 1:
                 Monster2.attack(Monster1, name1)
