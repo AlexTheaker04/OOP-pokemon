@@ -8,16 +8,12 @@ import random
 # Input: user will input names and stats of monsters, and what they want their monsters to do.
 # Output: 4 encrypted messages output to the console, each on a separate line, and saved to a file
 
-# earth gets 5 bonus to special attack
-# fire gets 5 more to defence
-# water get 5 more to heal
-
 class Monster:
     def __init__(self, name, type, health, damage, defence, ):
         self.name = name
         self.type = type
         self.health = health
-        self.damage = (.4 *damage)
+        self.damage = (.4 * damage)
         self.defence = defence
 
     def attack(self, target, target2):
@@ -52,21 +48,21 @@ class Monster:
 
 class earth(Monster):
     def s_attack(self, target, target2):
-        target.attacked(self.damage + 10, target2)
-    # self.damage + 10
+        target.attacked(self.damage + 5, target2)
+    # self.damage + 5
 
 
 class water(Monster):
     # better healing
     def heal(self):
         temp = self.health
-        self.health += (temp * .2) + 10
+        self.health += (temp * .2) + 5
 
 
 class fire(Monster):
-    # increase defence by 5
+    # increase defence by 3
     def __init__(self, name, type, health, damage, defence):
-        super().__init__(name, type, health, damage, defence + 5)
+        super().__init__(name, type, health, damage, defence + 3)
 
 
 def end_game(name):
@@ -91,7 +87,7 @@ while choice != "Y" and choice != "N":
     print(choice)
     choice = input("Do you want to play against the computer (Y) or another player (N) ? : ")
     choice = choice.upper()
-    
+
 health1 = 0
 damage1 = 0
 defence1 = 0
@@ -107,14 +103,14 @@ while True:  # validation
     print("Set your monsters abilities. Remember, total points cannot be more then 50!")
     name1 = input("Player 1, what name do you want for your monster? ")
     type1 = input("Player, what type (fire, earth, water):? ")
-    while type1 not in ["fire","earth","water"]:
+    while type1 not in ["fire", "earth", "water"]:
         print("error, must be either fire, earth or water")
         type1 = input("Player, what type (fire, earth, water):? ")
     health1 = int(input("What health:? "))
     damage1 = int(input("how much damage:? "))
     defence1 = int(input("How much defence:? "))
 
-    if health1 + damage1 + defence1 < 51:
+    if health1 + damage1 + defence1 < 51 and name1 != "":
         if type1 == "fire":
             Monster1 = fire(name1, type1, health1, damage1, defence1)
         elif type1 == "water":
@@ -124,12 +120,25 @@ while True:  # validation
         break
     print("error, try again!")
 if choice == "N":
-    name2 = input("Player 2, what name do you want for your monster?")
-    type2 = input("Player, what type (fire, earth, water):? ")
-    health2 = int(input("Player what health:? "))
-    damage2 = int(input("how much damage:? "))
-    defence2 = int(input("How much defence:? "))
-    Monster2 = Monster(name2, type2, health2, damage2, defence2)
+    while True:  # validation
+        print("Set your monsters abilities. Remember, total points cannot be more then 50!")
+        name2 = input("Player 2, what name do you want for your monster? ")
+        type2 = input("Player, what type (fire, earth, water):? ")
+        while type2 not in ["fire", "earth", "water"]:
+            print("error, must be either fire, earth or water")
+            type2 = input("Player, what type (fire, earth, water):? ")
+        health2 = int(input("What health:? "))
+        damage2 = int(input("how much damage:? "))
+        defence2 = int(input("How much defence:? "))
+
+        if health2 + damage2 + defence2 < 51 and name2 != "":
+            if type2 == "fire":
+                Monster2 = fire(name2, type2, health2, damage2, defence2)
+            elif type2 == "water":
+                Monster2 = water(name2, type2, health2, damage2, defence2)
+            else:
+                Monster2 = earth(name2, type2, health2, damage2, defence2)
+            break
 else:
     while True:
         # set computer monster stats for computer
@@ -148,10 +157,9 @@ else:
             else:
                 Monster2 = earth(name2, type2, health2, damage2, defence2)
             break
-        print("error, try again!")
+        # print("error, try again!")
 if computer == 1:
     while True:
-
         print("")
         print("")
         print("")
@@ -164,11 +172,12 @@ if computer == 1:
         while True:  # user portion doing things
 
             p_input = input("player 1, what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
-                      "special attack (4)? ")
-            while p_input.isdigit() == False:
+                            "special attack (4)? ")
+            while not p_input.isdigit():
                 print("not a number, try again!")
-                p_input =  input("player 1, what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
-                      "special attack (4)? ")
+                p_input = input(
+                    "player 1, what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
+                    "special attack (4)? ")
 
             p_input = int(p_input)
 
@@ -189,7 +198,8 @@ if computer == 1:
             if p_input == 5:
                 Monster1.retreat(name1)
             elif p_input == 3 and heal == 0:
-                print("you cant heal :(")
+                print("you cant heal :(, attacking instead!")
+                Monster1.attack(Monster2, name2)
                 break
 
         # computer taking actions
@@ -224,11 +234,12 @@ if computer == 0:
         while True:  # user portion doing things
 
             p_input = input("player 1, what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
-                      "special attack (4)? ")
-            while p_input.isdigit() == False:
+                            "special attack (4)? ")
+            while not p_input.isdigit():
                 print("not a number, try again!")
-                p_input =  input("player 1, what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
-                      "special attack (4)? ")
+                p_input = input(
+                    "player 1, what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
+                    "special attack (4)? ")
             p_input = int(p_input)
             if p_input == 1:
                 Monster1.attack(Monster2, name2)
@@ -247,7 +258,8 @@ if computer == 0:
             if p_input == 5:
                 Monster1.retreat(name1)
             elif p_input == 3 and heal == 0:
-                print("you cant heal :(")
+                print("you cant heal :(, attacking instead")
+                Monster1.attack(Monster2, name2)
                 break
 
         # user 2 moves
@@ -262,8 +274,12 @@ if computer == 0:
             end_game("Player 1")
         while True:  # user 1 moves
 
-            p_input = int(input("player 2, what do you want to do? (attack (1), heal (3), retreat (5), view stats (2), "
-                                "special attack (4)? "))
+            while not p_input.isdigit():
+                print("not a number, try again!")
+                p_input = input(
+                    "player 1, what do you want to do? (attack (1), heal (3), retreat (5), view stats (2) , "
+                    "special attack (4)? ")
+            p_input = int(p_input)
             if p_input == 1:
                 Monster2.attack(Monster1, name1)
                 break
@@ -283,4 +299,3 @@ if computer == 0:
             elif p_input == 3 and heal == 0:
                 print("you cant heal :(")
                 break
-        
