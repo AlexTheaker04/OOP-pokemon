@@ -1,4 +1,5 @@
 import random
+import time
 
 
 # Program Header
@@ -13,7 +14,7 @@ class Monster:
         self.name = name
         self.type = type
         self.health = health
-        self.damage = (.4 * damage)
+        self.damage = round((.4 * damage))
         self.defence = defence
 
     def attack(self, target, target2):
@@ -32,8 +33,8 @@ class Monster:
         quit()
 
     def print_stats(self):
-        print(self.name, ": ", "Type: ", self.type, ", health: ", self.health, ", Attack: ",
-              self.damage, ", Defence: ", self.defence)
+        print(self.name, ": ", "Type: ", self.type, ", health: ", round(self.health), ", Attack: ",
+              round(self.damage), ", Defence: ", round(self.defence))
         print("*------*")
 
     def view_stats(self):
@@ -203,7 +204,7 @@ if computer == 1:
                 break
 
         # computer taking actions
-
+        time.sleep(0)
         # health check for both monsters
         if Monster1.health <= 0:
             end_game("Computer")
