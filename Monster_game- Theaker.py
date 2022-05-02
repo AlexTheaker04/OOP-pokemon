@@ -202,9 +202,7 @@ if computer == 1:
             if p_input == 5:
                 Monster1.retreat(name1)
             elif p_input == 3 and heal == 0:
-                print("you cant heal :(, attacking instead!")
-                Monster1.attack(Monster2, name2)
-                break
+                print("you cant heal :(")
             print("error, try again")
 
         # computer taking actions
@@ -304,4 +302,4 @@ if computer == 0:
                 Monster2.retreat(name2)
             elif p_input == 3 and heal == 0:
                 print("you cant heal :(")
-                break
+
