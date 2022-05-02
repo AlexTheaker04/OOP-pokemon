@@ -203,6 +203,7 @@ if computer == 1:
                 Monster1.retreat(name1)
             elif p_input == 3 and heal == 0:
                 print("you cant heal :(")
+
             print("error, try again")
 
         # computer taking actions
@@ -212,7 +213,6 @@ if computer == 1:
             end_game("Computer")
         elif Monster2.health <= 0:
             end_game("Player")
-        # attacking
         if random.randint(1, 4) == 1:
             Monster2.s_attack(Monster1, name1)
         else:
@@ -261,9 +261,7 @@ if computer == 0:
             if p_input == 5:
                 Monster1.retreat(name1)
             elif p_input == 3 and heal == 0:
-                print("you cant heal :(, attacking instead")
-                Monster1.attack(Monster2, name2)
-                break
+                print("you cant heal :(")
 
         # user 2 moves
         print("")
@@ -302,4 +300,3 @@ if computer == 0:
                 Monster2.retreat(name2)
             elif p_input == 3 and heal == 0:
                 print("you cant heal :(")
-
