@@ -10,7 +10,7 @@ import time
 # Output: 4 encrypted messages output to the console, each on a separate line, and saved to a file
 
 class Monster:
-    def __init__(self, name, type, health, damage, defence, ): # set variables
+    def __init__(self, name, type, health, damage, defence, ):  # set variables
         self.name = name
         self.type = type
         self.health = health
@@ -25,7 +25,6 @@ class Monster:
         target.attacked(self.damage + 2, target2)
 
     def heal(self):
-        temp = self.health
         self.health += 5
 
     def retreat(self, name):
@@ -58,7 +57,6 @@ class earth(Monster):
 class water(Monster):
     # better healing
     def heal(self):
-        temp = self.health
         self.health += 10
 
 
@@ -127,7 +125,7 @@ while True:  # setting player values and monster type, incl validation.
         break
     print("error, try again!")
 if choice == "N":
-    while True: # setting player values and monster type, incl validation.
+    while True:  # setting player values and monster type, incl validation.
         print("Set your monsters abilities. Remember, total points cannot be more then 50!")
         name2 = input("Player 2, what name do you want for your monster? ")
         type2 = input("Player 2, what type (fire, earth, water):? ")
@@ -164,7 +162,7 @@ else:
             else:
                 Monster2 = earth(name2, type2, health2, damage2, defence2)
             break
-if computer == 1: # if playing against computer
+if computer == 1:  # if playing against computer
     while True:
         print("")
         print("")
@@ -227,7 +225,7 @@ if computer == 1: # if playing against computer
         elif Monster2.health <= 5:
             Monster2.heal()
 
-if computer == 0: # if playing against other players.
+if computer == 0:  # if playing against other players.
     while True:
         print("")
         print("")
