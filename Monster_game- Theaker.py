@@ -10,7 +10,7 @@ import time
 # Output: 4 encrypted messages output to the console, each on a separate line, and saved to a file
 
 class Monster:
-    def __init__(self, name, type, health, damage, defence, ):
+    def __init__(self, name, type, health, damage, defence, ): # set variables
         self.name = name
         self.type = type
         self.health = health
@@ -26,7 +26,7 @@ class Monster:
 
     def heal(self):
         temp = self.health
-        self.health += temp * .2
+        self.health += 5
 
     def retreat(self, name):
         print(name, "has retreated, you win!")
@@ -59,7 +59,7 @@ class water(Monster):
     # better healing
     def heal(self):
         temp = self.health
-        self.health += (temp * .2) + 5
+        self.health += 10
 
 
 class fire(Monster):
@@ -79,15 +79,19 @@ print("""
 In this game, you have to fight against either the computer or another player.
 You take turns attacking or healing your Monster. You can enter either "attack",
  "heal", special attack  or "retreat"
+ - As a earth type, you get 5 more damage to its special attack
+ - As a fire type you get 3 more defence 
+ - As a water you get 5 more HP when healing.
 """)
 computer = 0
 monster_classes = ["fire", "water", "earth"]
+
+# if user wants to play against computer or other player
 choice = input("Do you want to play against the computer (Y) or another player (N) ? : ")
 choice = choice.upper()
 
 while choice != "Y" and choice != "N":
     print("try again!")
-    print(choice)
     choice = input("Do you want to play against the computer (Y) or another player (N) ? : ")
     choice = choice.upper()
 
@@ -102,7 +106,7 @@ heal2 = 1
 special_count = 1
 special_count2 = 1
 
-while True:  # validation
+while True:  # setting player values and monster type, incl validation.
     print("Set your monsters abilities. Remember, total points cannot be more then 50!")
     name1 = input("Player 1, what name do you want for your monster? ")
     type1 = input("Player, what type (fire, earth, water):? ")
@@ -123,7 +127,7 @@ while True:  # validation
         break
     print("error, try again!")
 if choice == "N":
-    while True:  # validation
+    while True: # setting player values and monster type, incl validation.
         print("Set your monsters abilities. Remember, total points cannot be more then 50!")
         name2 = input("Player 2, what name do you want for your monster? ")
         type2 = input("Player 2, what type (fire, earth, water):? ")
@@ -144,11 +148,11 @@ if choice == "N":
             break
 else:
     while True:
-        # set computer monster stats for computer
+        # set random  computer monster stats for computer
         computer = 1
         name2 = "El Computer"
         type2 = random.choice(monster_classes)
-        health2 = random.randint(20, 30)
+        health2 = random.randint(15, 30)
         damage2 = random.randint(9, 20)
         defence2 = random.randint(10, 15)
 
@@ -160,7 +164,7 @@ else:
             else:
                 Monster2 = earth(name2, type2, health2, damage2, defence2)
             break
-if computer == 1:
+if computer == 1: # if playing against computer
     while True:
         print("")
         print("")
@@ -195,7 +199,7 @@ if computer == 1:
             if p_input == 2:
                 Monster1.view_stats()
             if p_input == 3 and heal == 1:
-                print("healing HP")
+                print("healing 5 HP")
                 Monster1.heal()
                 heal = 0
                 break
@@ -220,10 +224,10 @@ if computer == 1:
         # AI retreat
         if Monster2.health <= 5 and random.randint(1, 10) == 5:
             Monster2.retreat(name2)
-        else:
+        elif Monster2.health <= 5:
             Monster2.heal()
 
-if computer == 0:
+if computer == 0: # if playing against other players.
     while True:
         print("")
         print("")
